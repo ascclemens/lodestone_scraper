@@ -1,0 +1,22 @@
+cargo-features = ["edition"]
+
+[package]
+name = "lodestone_scraper"
+version = "0.1.0"
+authors = ["Kyle Clemens <git@kyleclemens.com>"]
+
+edition = "2018"
+
+[dependencies]
+reqwest = "0.8"
+failure = "0.1"
+lazy_static = "1"
+url = "1"
+
+[dependencies.lodestone_parser]
+git = "https://github.com/jkcclemens/lodestone_parser"
+
+[dependencies.ffxiv_types]
+version = "1"
+default-features = false
+features = ["worlds", "data_centers", "races", "clans"]
