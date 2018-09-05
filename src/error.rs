@@ -6,7 +6,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
   #[fail(display = "not found")]
   NotFound,
-  #[fail(display = "Lodestone responded with an unexpected code: {}", _0)]
+  #[fail(display = "lodestone responded with an unexpected code: {}", _0)]
   UnexpectedResponse(StatusCode),
   #[fail(display = "network error: {}", _0)]
   Net(reqwest::Error),
