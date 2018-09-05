@@ -25,6 +25,8 @@ pub struct FreeCompanySearchBuilder<'a> {
   world: Option<Either<World, DataCenter>>,
   // gcid
   grand_company: Option<Vec<GrandCompany>>,
+  // page
+  page: Option<u64>,
 }
 
 impl<'a> FreeCompanySearchBuilder<'a> {
@@ -34,6 +36,7 @@ impl<'a> FreeCompanySearchBuilder<'a> {
       name: None,
       world: None,
       grand_company: None,
+      page: None,
     }
   }
 
@@ -57,6 +60,11 @@ impl<'a> FreeCompanySearchBuilder<'a> {
     self
   }
 
+  pub fn page(&mut self, p: u64) -> &mut Self {
+    self.page = Some(p);
+    self
+  }
+
   pub fn send(&self) -> Result<Paginated<FreeCompanySearchItem>> {
     let text = self.scraper.text(self.as_url())?;
     lodestone_parser::parse_free_company_search(&text).map_err(Error::Parse)
@@ -67,6 +75,10 @@ impl<'a> FreeCompanySearchBuilder<'a> {
 
     {
       let mut pairs = url.query_pairs_mut();
+
+      if let Some(page) = self.page {
+        pairs.append_pair("page", &page.to_string());
+      }
 
       if let Some(ref name) = self.name {
         pairs.append_pair("q", name);

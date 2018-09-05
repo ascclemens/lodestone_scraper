@@ -31,6 +31,8 @@ pub struct CharacterSearchBuilder<'a> {
   race: Option<Either<Race, Clan>>,
   // gcid
   grand_company: Option<Vec<GrandCompany>>,
+  // page
+  page: Option<u64>,
 }
 
 impl<'a> CharacterSearchBuilder<'a> {
@@ -42,6 +44,7 @@ impl<'a> CharacterSearchBuilder<'a> {
       job: None,
       race: None,
       grand_company: None,
+      page: None,
     }
   }
 
@@ -85,6 +88,11 @@ impl<'a> CharacterSearchBuilder<'a> {
     self
   }
 
+  pub fn page(&mut self, p: u64) -> &mut Self {
+    self.page = Some(p);
+    self
+  }
+
   pub fn send(&self) -> Result<Paginated<CharacterSearchItem>> {
     let text = self.scraper.text(self.as_url())?;
     lodestone_parser::parse_character_search(&text).map_err(Error::Parse)
@@ -95,6 +103,10 @@ impl<'a> CharacterSearchBuilder<'a> {
 
     {
       let mut pairs = url.query_pairs_mut();
+
+      if let Some(page) = self.page {
+        pairs.append_pair("page", &page.to_string());
+      }
 
       if let Some(ref name) = self.name {
         pairs.append_pair("q", name);
