@@ -7,7 +7,7 @@ use lodestone_parser::models::{
   free_company::FreeCompany,
 };
 
-use reqwest::Client;
+use reqwest::{Client, StatusCode};
 
 use url::Url;
 
@@ -41,14 +41,24 @@ impl LodestoneScraper {
     LODESTONE_URL.join(s).map_err(Error::Url)
   }
 
-  pub fn character(&self, id: u64) -> Result<Character> {
-    let url = LodestoneScraper::route(&format!("character/{}", id))?;
-    let text = self.client
+  crate fn text(&self, url: Url) -> Result<String> {
+    let mut res = self.client
       .get(url)
       .send()
-      .map_err(Error::Net)?
-      .text()
       .map_err(Error::Net)?;
+    match res.status() {
+      StatusCode::Ok => {},
+      StatusCode::NotFound => return Err(Error::NotFound),
+      x => return Err(Error::UnexpectedResponse(x)),
+    }
+    res
+      .text()
+      .map_err(Error::Net)
+  }
+
+  pub fn character(&self, id: u64) -> Result<Character> {
+    let url = LodestoneScraper::route(&format!("character/{}", id))?;
+    let text = self.text(url)?;
     lodestone_parser::parse_character(id, &text).map_err(Error::Parse)
   }
 
@@ -58,12 +68,7 @@ impl LodestoneScraper {
 
   pub fn free_company(&self, id: u64) -> Result<FreeCompany> {
     let url = LodestoneScraper::route(&format!("freecompany/{}", id))?;
-    let text = self.client
-      .get(url)
-      .send()
-      .map_err(Error::Net)?
-      .text()
-      .map_err(Error::Net)?;
+    let text = self.text(url)?;
     lodestone_parser::parse_free_company(id, &text).map_err(Error::Parse)
   }
 

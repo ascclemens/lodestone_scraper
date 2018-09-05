@@ -58,12 +58,7 @@ impl<'a> FreeCompanySearchBuilder<'a> {
   }
 
   pub fn send(&self) -> Result<Paginated<FreeCompanySearchItem>> {
-    let text = self.scraper.client
-      .get(self.as_url())
-      .send()
-      .map_err(Error::Net)?
-      .text()
-      .map_err(Error::Net)?;
+    let text = self.scraper.text(self.as_url())?;
     lodestone_parser::parse_free_company_search(&text).map_err(Error::Parse)
   }
 

@@ -86,12 +86,7 @@ impl<'a> CharacterSearchBuilder<'a> {
   }
 
   pub fn send(&self) -> Result<Paginated<CharacterSearchItem>> {
-    let text = self.scraper.client
-      .get(self.as_url())
-      .send()
-      .map_err(Error::Net)?
-      .text()
-      .map_err(Error::Net)?;
+    let text = self.scraper.text(self.as_url())?;
     lodestone_parser::parse_character_search(&text).map_err(Error::Parse)
   }
 
