@@ -1,3 +1,5 @@
+#![feature(crate_visibility_modifier)]
+
 #[macro_use] extern crate failure;
 
 use lazy_static::lazy_static;
