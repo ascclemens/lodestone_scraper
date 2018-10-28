@@ -7,7 +7,6 @@ use lazy_static::lazy_static;
 use lodestone_parser::models::{
   character::Character,
   free_company::FreeCompany,
-  linkshell::Linkshell,
 };
 
 use reqwest::{Client, StatusCode};

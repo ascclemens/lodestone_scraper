@@ -3,8 +3,6 @@ use crate::{
   error::*,
 };
 
-use ffxiv_types::{World, DataCenter};
-
 use lodestone_parser::models::linkshell::Linkshell;
 
 use url::Url;
