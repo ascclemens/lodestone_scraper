@@ -7,6 +7,7 @@ use lazy_static::lazy_static;
 use lodestone_parser::models::{
   character::Character,
   free_company::FreeCompany,
+  linkshell::Linkshell,
 };
 
 use reqwest::{Client, StatusCode};
@@ -76,5 +77,13 @@ impl LodestoneScraper {
 
   pub fn free_company_search(&self) -> builder::FreeCompanySearchBuilder {
     builder::FreeCompanySearchBuilder::new(self)
+  }
+
+  pub fn linkshell(&self, id: u64) -> builder::LinkshellBuilder {
+    builder::LinkshellBuilder::new(self, id)
+  }
+
+  pub fn linkshell_search(&self) -> builder::LinkshellSearchBuilder {
+    builder::LinkshellSearchBuilder::new(self)
   }
 }
