@@ -49,8 +49,8 @@ impl LodestoneScraper {
       .send()
       .map_err(Error::Net)?;
     match res.status() {
-      StatusCode::Ok => {},
-      StatusCode::NotFound => return Err(Error::NotFound),
+      StatusCode::OK => {},
+      StatusCode::NOT_FOUND => return Err(Error::NotFound),
       x => return Err(Error::UnexpectedResponse(x)),
     }
     res

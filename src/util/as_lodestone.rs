@@ -78,6 +78,7 @@ impl AsLodestone for Job {
       Job::Astrologian => 33,
       Job::Samurai => 34,
       Job::RedMage => 35,
+      Job::BlueMage => 36,
     }
   }
 }

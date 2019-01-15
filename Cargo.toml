@@ -6,7 +6,7 @@ authors = ["Kyle Clemens <git@kyleclemens.com>"]
 edition = "2018"
 
 [dependencies]
-reqwest = "0.8"
+reqwest = "0.9"
 failure = "0.1"
 lazy_static = "1"
 url = "1"
