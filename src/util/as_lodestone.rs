@@ -79,6 +79,8 @@ impl AsLodestone for Job {
       Job::Samurai => 34,
       Job::RedMage => 35,
       Job::BlueMage => 36,
+      Job::Gunbreaker => 37,
+      Job::Dancer => 38,
     }
   }
 }
@@ -106,6 +108,8 @@ impl AsLodestone for Race {
       Race::Miqote => 4,
       Race::Roegadyn => 5,
       Race::AuRa => 6,
+      Race::Hrothgar => 7,
+      Race::Viera => 8,
     }
   }
 }
@@ -127,6 +131,10 @@ impl AsLodestone for Clan {
       Clan::Hellsguard => 10,
       Clan::Raen => 11,
       Clan::Xaela => 12,
+      Clan::Helion => 13,
+      Clan::TheLost => 14,
+      Clan::Rava => 15,
+      Clan::Veena => 16,
     }
   }
 }
