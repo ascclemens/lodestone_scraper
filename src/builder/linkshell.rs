@@ -29,8 +29,8 @@ impl<'a> LinkshellBuilder<'a> {
     self
   }
 
-  pub fn send(&self) -> Result<Linkshell> {
-    let text = self.scraper.text(self.as_url())?;
+  pub async fn send(&self) -> Result<Linkshell> {
+    let text = self.scraper.text(self.as_url()).await?;
     lodestone_parser::parse_linkshell(self.id, &text).map_err(Error::Parse)
   }
 

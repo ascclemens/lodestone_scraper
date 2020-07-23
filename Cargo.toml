@@ -1,15 +1,16 @@
 [package]
 name = "lodestone_scraper"
 version = "0.1.0"
-authors = ["Kyle Clemens <git@kyleclemens.com>"]
+authors = ["Anna Clemens <git@annaclemens.io>"]
 
 edition = "2018"
 
 [dependencies]
-reqwest = "0.9"
+reqwest = "0.10"
 failure = "0.1"
+# futures = "0.3"
 lazy_static = "1"
-url = "1"
+url = "2"
 
 [dependencies.lodestone_parser]
 git = "https://github.com/jkcclemens/lodestone_parser"
@@ -18,3 +19,7 @@ git = "https://github.com/jkcclemens/lodestone_parser"
 version = "1"
 default-features = false
 features = ["worlds", "data_centers", "races", "clans"]
+
+[dependencies.tokio]
+version = "0.2"
+features = ["rt-core", "rt-threaded", "macros"]

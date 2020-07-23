@@ -55,8 +55,8 @@ impl<'a> LinkshellSearchBuilder<'a> {
     self
   }
 
-  pub fn send(&self) -> Result<Paginated<LinkshellSearchItem>> {
-    let text = self.scraper.text(self.as_url())?;
+  pub async fn send(&self) -> Result<Paginated<LinkshellSearchItem>> {
+    let text = self.scraper.text(self.as_url()).await?;
     lodestone_parser::parse_linkshell_search(&text).map_err(Error::Parse)
   }
 

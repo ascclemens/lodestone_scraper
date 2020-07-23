@@ -43,10 +43,11 @@ impl LodestoneScraper {
     LODESTONE_URL.join(s).map_err(Error::Url)
   }
 
-  crate fn text(&self, url: Url) -> Result<String> {
-    let mut res = self.client
+  crate async fn text(&self, url: Url) -> Result<String> {
+    let res = self.client
       .get(url)
       .send()
+      .await
       .map_err(Error::Net)?;
     match res.status() {
       StatusCode::OK => {},
@@ -55,12 +56,13 @@ impl LodestoneScraper {
     }
     res
       .text()
+      .await
       .map_err(Error::Net)
   }
 
-  pub fn character(&self, id: u64) -> Result<Character> {
+  pub async fn character(&self, id: u64) -> Result<Character> {
     let url = LodestoneScraper::route(&format!("character/{}", id))?;
-    let text = self.text(url)?;
+    let text = self.text(url).await?;
     lodestone_parser::parse_character(id, &text).map_err(Error::Parse)
   }
 
@@ -68,9 +70,9 @@ impl LodestoneScraper {
     builder::CharacterSearchBuilder::new(self)
   }
 
-  pub fn free_company(&self, id: u64) -> Result<FreeCompany> {
+  pub async fn free_company(&self, id: u64) -> Result<FreeCompany> {
     let url = LodestoneScraper::route(&format!("freecompany/{}", id))?;
-    let text = self.text(url)?;
+    let text = self.text(url).await?;
     lodestone_parser::parse_free_company(id, &text).map_err(Error::Parse)
   }
 

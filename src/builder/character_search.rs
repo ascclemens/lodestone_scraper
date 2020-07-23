@@ -93,8 +93,8 @@ impl<'a> CharacterSearchBuilder<'a> {
     self
   }
 
-  pub fn send(&self) -> Result<Paginated<CharacterSearchItem>> {
-    let text = self.scraper.text(self.as_url())?;
+  pub async fn send(&self) -> Result<Paginated<CharacterSearchItem>> {
+    let text = self.scraper.text(self.as_url()).await?;
     lodestone_parser::parse_character_search(&text).map_err(Error::Parse)
   }
 

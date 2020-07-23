@@ -65,8 +65,8 @@ impl<'a> FreeCompanySearchBuilder<'a> {
     self
   }
 
-  pub fn send(&self) -> Result<Paginated<FreeCompanySearchItem>> {
-    let text = self.scraper.text(self.as_url())?;
+  pub async fn send(&self) -> Result<Paginated<FreeCompanySearchItem>> {
+    let text = self.scraper.text(self.as_url()).await?;
     lodestone_parser::parse_free_company_search(&text).map_err(Error::Parse)
   }
 
